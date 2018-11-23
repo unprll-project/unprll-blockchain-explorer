@@ -1,0 +1,205 @@
+<div>
+    <div>
+        <div class="left-half">
+            <h3>Block Hash (height)</h3>
+        </div>
+        <div class="right-half">
+            <code>{{blk_hash}} ({{blk_height}})</code>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div style="margin-left: 1rem;">
+        {{#have_prev_hash}}
+        <div>
+            <div class="left-half">
+                <h4>Previous Block Hash</h4>
+            </div>
+            <div class="right-half">
+                <code>
+                    <a href="/block/{{prev_hash}}">{{prev_hash}}</a>
+                </code>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        {{/have_prev_hash}}
+        {{#have_next_hash}}
+        <div>
+            <div class="left-half">
+                <h4>Next Block Hash</h4>
+            </div>
+            <div class="right-half">
+                <code>
+                    <a href="/block/{{next_hash}}">{{next_hash}}</a>
+                </code>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        {{/have_next_hash}}
+    </div>
+    <div>
+        <div>
+            <h3>Block Header</h3>
+            <div style="margin-left: 1rem;">
+                <div class="left-half">
+                    <div>
+                        <div class="left-half">
+                            <code>Timestamp [UTC] (epoch)</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{blk_timestamp}} ({{blk_timestamp_epoch}})</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div>
+                        <div class="left-half">
+                            <code>Age {{age_format}}</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{blk_age}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div>
+                        <div class="left-half">
+                            <code>Delta [h:m:s]</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{delta_time}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div>
+                        <div class="left-half">
+                            <code>Major.Minor</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{major_ver}}.{{minor_ver}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div>
+                        <div class="left-half">
+                            <code>Block Reward</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{blk_reward}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div>
+                        <div class="left-half">
+                            <code>Block Size</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{blk_size}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="right-half">
+                    <div>
+                        <div class="left-half">
+                            <code>Iterations</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{blk_iterations}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div>
+                        <div class="left-half">
+                            <code>Total fees</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{sum_fees}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div>
+                        <div class="left-half">
+                            <code># of Transactions</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{no_txs}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- <div>
+                        <div class="left-half">
+                            <code>PoW Hash</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{blk_pow_hash}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div> -->
+                    <div>
+                        <div class="left-half">
+                            <code>Difficulty</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{blk_difficulty}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div>
+                        <div class="left-half">
+                            <code>Block Size</code>
+                        </div>
+                        <div class="right-half">
+                            <code>{{blk_size}}</code>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <h3>Miner reward transaction</h3>
+        <table class="full-width">
+            <tr>
+                <td>hash</td>
+                <td>outputs</td>
+                <td>size [kB]</td>
+                <td>version</td>
+            </tr>
+            {{#coinbase_txs}}
+                <tr>
+                    <td><a href="/tx/{{hash}}">{{hash}}</a>
+                    <td>{{sum_outputs}}</td>
+                    <td>{{tx_size}}</td>
+                    <td>{{version}}</td>
+                </tr>
+            {{/coinbase_txs}}
+        </table>
+        <h3>Transactions ({{no_txs}})</h3>
+        {{#have_txs}}
+        <table class="full-width">
+            <tr>
+                <td>hash</td>
+                <td>outputs</td>
+                <td>fee [&#181;&#x271]</td>
+                <td>in/out</td>
+                <td>size [kB]</td>
+                <td>version</td>
+            </tr>
+            {{#blk_txs}}
+            <tr>
+                <td><a href="/tx/{{hash}}">{{hash}}</a></td>
+                <td>{{sum_outputs}}</td>
+                <td>{{fee_micro}}</td>
+                <td>{{no_inputs}}/{{no_outputs}}</td>
+                <td>{{tx_size}}</td>
+                <td>{{version}}</td>
+            </tr>
+            {{/blk_txs}}
+        </table>
+        {{/have_txs}}
+    </div>
+    {{#enable_as_hex}}
+        <h5 style="margin-top:1px">
+            <a href="/blockhex/{{blk_height}}">Block as hex</a>
+            | <a href="/blockhexcomplete/{{blk_height}}">Complete block as hex</a>
+        </h5>
+    {{/enable_as_hex}}
+</div>
