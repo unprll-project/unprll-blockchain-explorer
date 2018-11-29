@@ -65,9 +65,16 @@ endif()
 add_library(unbound STATIC IMPORTED)
 set_property(TARGET unbound PROPERTY IMPORTED_LOCATION ${UNPRLL_BUILD_DIR}/external/unbound/libunbound.a)
 
+
+
 # include boost headers
 include_directories(${Boost_INCLUDE_DIRS})
+
+# include monero
+include_directories(${MONERO_SOURCE_DIR}/build)
+
 include_directories("ext/mstch/include")
+include_directories("ext/mstch/include/src")
 include_directories("ext/crow")
 
 # add ext/ subfolder
