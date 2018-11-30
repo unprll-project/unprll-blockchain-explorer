@@ -1896,6 +1896,12 @@ show_ringmemberstx_jsonhex(string const& tx_hash_str)
                             {"spendkey", ""},
                             {"amount", 0ull},
                             {"change", 0ull},
+                            {"outputs", json::array({json::array(
+                                            {"index placeholder",
+                                             "public_key placeholder",
+                                             "amount placeholder"}
+                                        )})
+                            },
                             {"_comment", ""}};
 
     tx_json["recipient"] = json::array();
@@ -1908,6 +1914,12 @@ show_ringmemberstx_jsonhex(string const& tx_hash_str)
                                 {"viewkey", ""},
                                 {"spendkey", ""},
                                 {"amount", 0ull},
+                                {"outputs", json::array({json::array(
+                                               {"index placeholder",
+                                                "public_key placeholder",
+                                                "amount placeholder"}
+                                           )})
+                                },
                                 {"_comment", ""}});
 
 
