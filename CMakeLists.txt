@@ -22,7 +22,7 @@ set(UNPRLL_SOURCE_DIR ${UNPRLL_DIR}
         CACHE PATH "Path to the root directory for Unprll")
 
 # set location of unprll build tree
-set(UNPRLL_BUILD_DIR ${UNPRLL_SOURCE_DIR}/build/Linux-x86_64/alpha-antelope-v0.1/release/
+set(UNPRLL_BUILD_DIR ${UNPRLL_SOURCE_DIR}/build/Linux-x86_64/master/release/
         CACHE PATH "Path to the build directory for Unprll")
 
 set(MY_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake"

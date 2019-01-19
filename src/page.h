@@ -698,7 +698,7 @@ index2(uint64_t page_no = 0, bool refresh_page = false)
 
                 bool is_tx_still_in_block_as_expected {true};
 
-                if (i + CRYPTONOTE_DEFAULT_TX_SPENDABLE_AGE > height)
+                if (i + CRYPTONOTE_DEFAULT_TX_SPENDABLE_AGE_V2 > height)
                 {
                     const crypto::hash& tx_hash = txd_pair.first;
 
