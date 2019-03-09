@@ -13,7 +13,7 @@ set(SOURCE_FILES
         fmt/format.cc
         fmt/ostream.cc)
 
-# make static library called libmyxrm
+# make static library called libmyull
 # that we are going to link to
 # in the root CMakeLists.txt file
 add_library(myext

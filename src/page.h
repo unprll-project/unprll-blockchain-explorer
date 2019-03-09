@@ -1717,7 +1717,7 @@ show_ringmembers_hex(string const& tx_hash_str)
                     == false)
                 continue;
 
-            core_storage->get_db().get_output_key(in_key.amount,
+            core_storage->get_db().get_output_key(epee::span<const uint64_t>(&in_key.amount, 1),
                                                   absolute_offsets,
                                                   mixin_outputs);
         }
@@ -1758,7 +1758,7 @@ show_ringmemberstx_hex(string const& tx_hash_str)
     if (!get_tx(tx_hash_str, tx, tx_hash))
         return string {"Cant get tx: "} +  tx_hash_str;
 
-    vector<txin_to_key> input_key_imgs = xmreg::get_key_images(tx);
+    vector<txin_to_key> input_key_imgs = ullblocks::get_key_images(tx);
 
     // key: constracted from concatenation of in_key.amount and absolute_offsets,
     // value: vector of string where string is transaction hash + output index + tx_hex
@@ -1861,7 +1861,7 @@ show_ringmemberstx_jsonhex(string const& tx_hash_str)
     if (!get_tx(tx_hash_str, tx, tx_hash))
         return string {"Cant get tx: "} +  tx_hash_str;
 
-    vector<txin_to_key> input_key_imgs = xmreg::get_key_images(tx);
+    vector<txin_to_key> input_key_imgs = ullblocks::get_key_images(tx);
 
     json tx_json;
 
@@ -1965,7 +1965,6 @@ show_ringmemberstx_jsonhex(string const& tx_hash_str)
 
     tx_details txd = get_tx_details(tx);
 
-    tx_json["payment_id"] = pod_to_hex(txd.payment_id);
     tx_json["payment_id8"] = pod_to_hex(txd.payment_id8);
     tx_json["payment_id8e"] = pod_to_hex(txd.payment_id8);
 
@@ -2006,7 +2005,7 @@ show_ringmemberstx_jsonhex(string const& tx_hash_str)
 
             // get mining ouput info
             core_storage->get_db().get_output_key(
-                        in_key.amount,
+                        epee::span<const uint64_t>(&in_key.amount, 1),
                         absolute_offsets,
                         mixin_outputs);
         }
@@ -2518,7 +2517,7 @@ show_my_outputs(string tx_hash_str,
             if (are_absolute_offsets_good(absolute_offsets, in_key) == false)
                 continue;
 
-            core_storage->get_db().get_output_key(in_key.amount,
+            core_storage->get_db().get_output_key(epee::span<const uint64_t>(&in_key.amount, 1),
                                                   absolute_offsets,
                                                   mixin_outputs);
         }
@@ -4670,7 +4669,7 @@ json_transaction(string tx_hash_str)
             if (are_absolute_offsets_good(absolute_offsets, in_key) == false)
                 continue;
 
-            core_storage->get_db().get_output_key(in_key.amount,
+            core_storage->get_db().get_output_key(epee::span<const uint64_t>(&in_key.amount, 1),
                                                   absolute_offsets,
                                                   outputs);
         }
@@ -6337,7 +6336,7 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
 
             // offsets seems good, so try to get the outputs for the amount and
             // offsets given
-            core_storage->get_db().get_output_key(in_key.amount,
+            core_storage->get_db().get_output_key(epee::span<const uint64_t>(&in_key.amount, 1),
                                                   absolute_offsets,
                                                   outputs);
         }
@@ -6550,7 +6549,7 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
         if (core_storage->get_db().tx_exists(txd.hash, tx_index))
         {
             out_amount_indices = core_storage->get_db()
-                    .get_tx_amount_output_indices(tx_index);
+                    .get_tx_amount_output_indices(tx_index).at(0);
         }
         else
         {

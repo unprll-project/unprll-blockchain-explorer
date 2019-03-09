@@ -22,7 +22,7 @@ set(UNPRLL_SOURCE_DIR ${UNPRLL_DIR}
         CACHE PATH "Path to the root directory for Unprll")
 
 # set location of unprll build tree
-set(UNPRLL_BUILD_DIR ${UNPRLL_SOURCE_DIR}/build/Linux-x86_64/master/release/
+set(UNPRLL_BUILD_DIR ${UNPRLL_SOURCE_DIR}/build/Host/beta-beaver-v0.2/release/
         CACHE PATH "Path to the build directory for Unprll")
 
 set(MY_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake"
@@ -71,7 +71,7 @@ set_property(TARGET unbound PROPERTY IMPORTED_LOCATION ${UNPRLL_BUILD_DIR}/exter
 include_directories(${Boost_INCLUDE_DIRS})
 
 # include monero
-include_directories(${MONERO_SOURCE_DIR}/build)
+include_directories(${UNPRLL_BUILD_DIR})
 
 include_directories("ext/mstch/include")
 include_directories("ext/mstch/include/src")
