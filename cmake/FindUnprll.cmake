@@ -28,7 +28,8 @@
 # (c) 2014-2016 cpp-ethereum contributors.
 #------------------------------------------------------------------------------
 
-set(LIBS common;
+set(LIBS blocks;
+    common;
     cryptonote_basic;
     cryptonote_core;
     multisig;
@@ -51,16 +52,22 @@ set(ULL_INCLUDE_DIRS "${CPP_UNPRLL_DIR}")
 # if the project is a subset of main cpp-ethereum project
 # use same pattern for variables as Boost uses
 
+set(CMAKE_FIND_ROOT_PATH ${UNPRLL_BUILD_DIR})
+
 foreach (l ${LIBS})
 
 	string(TOUPPER ${l} L)
 
 	find_library(ULL_${L}_LIBRARY
 		NAMES ${l}
-		PATHS ${CMAKE_LIBRARY_PATH}
+		PATHS ${UNPRLL_BUILD_DIR}
 		PATH_SUFFIXES "/src/${l}" "/src/" "/external/db_drivers/lib${l}" "/lib" "/src/crypto" "/contrib/epee/src" "/external/easylogging++/"
 		NO_DEFAULT_PATH
 	)
+
+	if (NOT ULL_${L}_LIBRARY)
+		message(SEND_ERROR "lib${l}.a not found")
+	endif()
 
 	set(ULL_${L}_LIBRARIES ${ULL_${L}_LIBRARY})
 
@@ -78,6 +85,7 @@ if (EXISTS ${UNPRLL_BUILD_DIR}/src/ringct/libringct_basic.a)
 			PROPERTY IMPORTED_LOCATION ${UNPRLL_BUILD_DIR}/src/ringct/libringct_basic.a)
 endif()
 
+unset(CMAKE_FIND_ROOT_PATH)
 
 message(STATUS ${UNPRLL_SOURCE_DIR}/build)
 

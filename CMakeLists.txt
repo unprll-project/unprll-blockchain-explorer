@@ -11,6 +11,7 @@ if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj -O3")
 endif()
 
+set(STATIC TRUE)
 
 if (NOT UNPRLL_DIR)
     set(UNPRLL_DIR ~/unprll)
@@ -22,7 +23,8 @@ set(UNPRLL_SOURCE_DIR ${UNPRLL_DIR}
         CACHE PATH "Path to the root directory for Unprll")
 
 # set location of unprll build tree
-set(UNPRLL_BUILD_DIR ${UNPRLL_SOURCE_DIR}/build/Host/beta-beaver-v0.2/release/
+set(UNPRLL_BUILD_DIR
+	${UNPRLL_SOURCE_DIR}/build/linux-x86_64/beta-beaver-v0.2/release/
         CACHE PATH "Path to the build directory for Unprll")
 
 set(MY_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake"
@@ -37,6 +39,9 @@ include(MyUtils)
 
 find_package(HIDAPI)
 find_package(Unprll)
+
+set(OPENSSL_USE_STATIC_LIBS TRUE)
+find_package(OpenSSL)
 
 set(Boost_USE_STATIC_LIBS ON)
 
@@ -55,6 +60,7 @@ find_package(Boost COMPONENTS
 
 #info https://github.com/arsenm/sanitizers-cmake
 find_package(Sanitizers)
+find_package(Libunwind)
 
 if(APPLE)
     include_directories(/usr/local/opt/openssl/include)
@@ -102,7 +108,7 @@ configure_files(${CMAKE_CURRENT_SOURCE_DIR}/src/templates/partials ${CMAKE_CURRE
 configure_files(${CMAKE_CURRENT_SOURCE_DIR}/src/templates/js ${CMAKE_CURRENT_BINARY_DIR}/templates/js)
 
 set(LIBRARIES
-        myull
+	myull
         myext
         mstch
         wallet
@@ -124,13 +130,14 @@ set(LIBRARIES
         version
         epee
         sodium
-        ${HIDAPI_LIBRARIES}
+	${HIDAPI_LIBRARIES}
         ${Boost_LIBRARIES}
+	${LIBUSB-1.0_LIBRARY}
         pthread
         unbound
         curl
-        crypto
-        ssl)
+	blocks
+        ${OPENSSL_LIBRARIES})
 
 if(APPLE)
     set(LIBRARIES ${LIBRARIES} "-framework IOKit -framework Foundation")
@@ -138,9 +145,9 @@ else()
     set(LIBRARIES ${LIBRARIES} atomic)
 endif()
 
-if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT WIN32)
-    set(LIBRARIES ${LIBRARIES} unwind)
-endif()
+#if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT WIN32)
+	# set(LIBRARIES ${LIBRARIES} unwind)
+#endif()
 
 if (WIN32)
     set(LIBRARIES ${LIBRARIES}
